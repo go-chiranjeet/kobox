@@ -91,7 +91,7 @@ How the pieces move is animated in the README: [how it works](docs/animations/ho
 **Releasing (SemVer):**
 1. Bump `version` in `pyproject.toml` and `kobox/__init__.py`.
 2. Add a section to `CHANGELOG.md`.
-3. Commit, then tag: `git tag vX.Y.Z && git push --tags`.
+3. Commit, then tag: `git tag -s vX.Y.Z -m "vX.Y.Z" && git push --tags`. Commits and tags must be signed; `main` rejects unsigned commits.
 4. Create a GitHub release from the tag, with the changelog section as notes.
 
 Use major versions for breaking API or settings changes, minor for new capabilities (a new expression type, a new fallback), and patch for fixes and tuning.
