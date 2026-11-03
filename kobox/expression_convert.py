@@ -6,7 +6,7 @@ Cuts the recording into short vocal moments (0.2-2.5 s, split at silences), conv
 each with Chatterbox's voice converter into REHA's voice (the target is her reference
 clip, so her voice never changes: only the expression is borrowed), and writes
 <out_dir>/NN.wav plus index.json. The original moments are not kept.
-Stage 2 (reha.expressions.import_converted) checks and classifies them into her bank.
+Stage 2 (expressions.import_converted) checks and classifies them into her bank.
 """
 import glob
 import json
