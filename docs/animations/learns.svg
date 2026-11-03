@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 450" role="img" aria-label="Someone else's recording is cut into short moments. Sung notes and lines with words are rejected. The rest go through a voice converter into REHA's own voice, Whisper confirms each is a pure expression, and they join her expression bank. The owner's thumbs up makes a take more likely, a thumbs down retires it, and a fresh take is rendered each week.">
+<style>
+svg{--ink:#1f2328;--dim:#59636e;--line:#c9d1d9;--card:#f6f8fa;--cb:#d1336b;--wh:#b8770a;--bank:#7048e8;--grey:#8c959f;--on:#fff}
+@media (prefers-color-scheme:dark){svg{--ink:#e6edf3;--dim:#9198a1;--line:#3d444d;--card:#161b22;--cb:#ff6b9a;--wh:#f2b443;--bank:#a78bfa;--grey:#6e7681;--on:#0d1117}}
+text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.t{font-size:14px;font-weight:600}.s{font-size:12px;fill:var(--dim)}.x{font-size:12px;font-weight:600;fill:var(--cb)}
+.card{fill:var(--card);stroke:var(--line);stroke-width:1.2}.grey{fill:var(--grey)}
+.take{fill:var(--bank)}.chip rect{fill:var(--grey)}.chip text{font-size:12px;font-weight:600;fill:var(--on)}
+.arrow{stroke:var(--line);stroke-width:1.6;fill:none;marker-end:url(#a)}
+@keyframes appear{0%,4%{opacity:0}10%,100%{opacity:1}}
+@keyframes keep{0%,14%{transform:translate(0,0)}26%,36%{transform:translate(230px,0)}46%{transform:translate(430px,0)}54%{transform:translate(600px,0);opacity:1}60%,100%{transform:translate(600px,0);opacity:0}}
+@keyframes drop{0%,14%{transform:translate(0,0);opacity:1}26%{transform:translate(230px,0);opacity:1}36%,100%{transform:translate(230px,0);opacity:0}}
+@keyframes recolor{0%,44%{fill:var(--grey)}48%,100%{fill:var(--bank)}}
+@keyframes xm{0%,26%{opacity:0}28%,36%{opacity:1}40%,100%{opacity:0}}
+@keyframes ok{0%,54%{opacity:0}57%,100%{opacity:1}}
+@keyframes newtake{0%,60%{opacity:0;transform:translateY(-30px)}68%,100%{opacity:1;transform:translateY(0)}}
+@keyframes up{0%,72%{transform:scale(1)}78%,100%{transform:scale(1.35)}}
+@keyframes fb1{0%,71%{opacity:0}73%,80%{opacity:1}84%,100%{opacity:0}}
+@keyframes retire{0%,82%{opacity:1}88%,100%{opacity:.12}}
+@keyframes fb2{0%,81%{opacity:0}83%,90%{opacity:1}93%,100%{opacity:0}}
+@keyframes fresh{0%,90%{opacity:0;transform:translateX(60px)}96%,100%{opacity:1;transform:translateX(0)}}
+.ap{animation:appear 13s infinite}.keep{animation:keep 13s infinite}.drop{animation:drop 13s infinite}
+.keep rect{animation:recolor 13s infinite}.xm{animation:xm 13s infinite}.ok{animation:ok 13s infinite}
+.new{animation:newtake 13s infinite}.up{transform-box:fill-box;transform-origin:center;animation:up 13s infinite}
+.fb1{animation:fb1 13s infinite}.ret{animation:retire 13s infinite}.fb2{animation:fb2 13s infinite}.fresh{animation:fresh 13s infinite}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8c959f"/></marker></defs>
+
+<text x="20" y="34" class="t" style="font-size:15px">She learns expressions, not voices</text>
+<rect x="20" y="58" width="180" height="96" rx="10" class="card"/>
+<rect x="34" y="101" width="3" height="8" rx="1.3" class="grey"/>
+<rect x="39" y="97" width="3" height="15" rx="1.3" class="grey"/>
+<rect x="44" y="95" width="3" height="21" rx="1.3" class="grey"/>
+<rect x="49" y="90" width="3" height="30" rx="1.3" class="grey"/>
+<rect x="54" y="87" width="3" height="36" rx="1.3" class="grey"/>
+<rect x="59" y="90" width="3" height="30" rx="1.3" class="grey"/>
+<rect x="64" y="89" width="3" height="31" rx="1.3" class="grey"/>
+<rect x="69" y="78" width="3" height="54" rx="1.3" class="grey"/>
+<rect x="74" y="85" width="3" height="41" rx="1.3" class="grey"/>
+<rect x="79" y="85" width="3" height="40" rx="1.3" class="grey"/>
+<rect x="84" y="76" width="3" height="58" rx="1.3" class="grey"/>
+<rect x="89" y="84" width="3" height="43" rx="1.3" class="grey"/>
+<rect x="94" y="81" width="3" height="47" rx="1.3" class="grey"/>
+<rect x="99" y="88" width="3" height="35" rx="1.3" class="grey"/>
+<rect x="104" y="89" width="3" height="32" rx="1.3" class="grey"/>
+<rect x="109" y="95" width="3" height="20" rx="1.3" class="grey"/>
+<rect x="114" y="96" width="3" height="18" rx="1.3" class="grey"/>
+<rect x="119" y="100" width="3" height="10" rx="1.3" class="grey"/>
+<rect x="124" y="98" width="3" height="13" rx="1.3" class="grey"/>
+<rect x="129" y="94" width="3" height="22" rx="1.3" class="grey"/>
+<rect x="134" y="91" width="3" height="29" rx="1.3" class="grey"/>
+<rect x="139" y="92" width="3" height="25" rx="1.3" class="grey"/>
+<rect x="144" y="84" width="3" height="43" rx="1.3" class="grey"/>
+<rect x="149" y="83" width="3" height="44" rx="1.3" class="grey"/>
+<rect x="154" y="85" width="3" height="40" rx="1.3" class="grey"/>
+<rect x="159" y="88" width="3" height="34" rx="1.3" class="grey"/>
+<rect x="164" y="77" width="3" height="56" rx="1.3" class="grey"/>
+<rect x="169" y="82" width="3" height="46" rx="1.3" class="grey"/>
+<text x="110" y="146" class="s" text-anchor="middle">someone else's recording</text>
+
+<g class="ap">
+<g class="chip keep"><rect x="230" y="56" width="110" height="24" rx="12"/><text x="285" y="72" text-anchor="middle">ha-ha</text></g>
+<g class="chip drop"><rect x="230" y="86" width="110" height="24" rx="12"/><text x="285" y="102" text-anchor="middle">♪ held note</text></g>
+<g class="chip keep"><rect x="230" y="116" width="110" height="24" rx="12"/><text x="285" y="132" text-anchor="middle">ooh</text></g>
+<g class="chip drop"><rect x="230" y="146" width="110" height="24" rx="12"/><text x="285" y="162" text-anchor="middle">lyrics…</text></g>
+</g>
+<text x="285" y="190" class="s" text-anchor="middle">cut at silences</text>
+
+<rect x="458" y="50" width="136" height="126" rx="10" fill="none" stroke="var(--line)" stroke-dasharray="5 4"/>
+<text x="526" y="196" class="s" text-anchor="middle">sung? words?</text>
+<text x="450" y="102" class="x xm" text-anchor="end">✗ singing</text><text x="450" y="162" class="x xm" text-anchor="end">✗ words</text>
+
+<rect x="640" y="50" width="140" height="126" rx="10" class="card"/>
+<text x="710" y="196" class="s" text-anchor="middle">voice converter</text><text x="710" y="168" class="s" text-anchor="middle">Chatterbox VC</text>
+<text x="710" y="40" class="s" text-anchor="middle">→ her reference voice</text>
+
+<rect x="810" y="50" width="130" height="126" rx="10" class="card"/>
+<text x="875" y="168" class="s" text-anchor="middle">large-v3-turbo</text><text x="875" y="196" class="s" text-anchor="middle">Whisper: pure</text><text x="875" y="211" class="s" text-anchor="middle">expression?</text>
+<text x="875" y="40" class="t ok" text-anchor="middle" style="fill:var(--wh)">✓ ✓</text>
+
+<path d="M200 106H224" class="arrow"/>
+
+<text x="20" y="246" class="t" style="font-size:15px">Her expression bank</text>
+<text x="940" y="246" class="s" text-anchor="end">real takes in her voice · used at random · never the same twice running</text>
+<text x="40" y="286" class="t">laugh</text>
+<circle cx="170" cy="282" r="11" class="take"/>
+<circle cx="204" cy="282" r="11" class="take"/>
+<circle cx="238" cy="282" r="11" class="take"/>
+<circle cx="272" cy="282" r="11" class="take new" stroke="var(--wh)" stroke-width="3"/><text x="292" y="286" class="s new">learned</text>
+<circle cx="170" cy="282" r="11" class="take up"/><text x="150" y="268" class="t fb1">👍</text>
+<text x="40" y="326" class="t">sigh</text>
+<circle cx="170" cy="322" r="11" class="take"/>
+<circle cx="204" cy="322" r="11" class="take"/>
+<circle cx="238" cy="322" r="11" class="take ret"/><text x="222" y="308" class="t fb2">👎</text><text x="258" y="326" class="x fb2">retired</text><circle cx="272" cy="322" r="11" class="take fresh" stroke="var(--ink)" stroke-dasharray="3 3"/><text x="292" y="326" class="s fresh">fresh this week</text>
+<text x="40" y="366" class="t">aww</text>
+<circle cx="170" cy="362" r="11" class="take"/>
+<circle cx="204" cy="362" r="11" class="take"/>
+
+<text x="40" y="406" class="t">ooh</text>
+<circle cx="170" cy="402" r="11" class="take"/>
+<circle cx="204" cy="402" r="11" class="take"/>
+<circle cx="238" cy="402" r="11" class="take new" stroke="var(--wh)" stroke-width="3"/><text x="258" y="406" class="s new">learned</text>
+<text x="520" y="290" class="s">👍  that take is used more often</text>
+<text x="520" y="316" class="s">👎  that take retires</text>
+<text x="520" y="342" class="s">Less / More  how often she expresses herself</text>
+<text x="520" y="368" class="s">you laugh back  the takes she used score up</text>
+<text x="520" y="394" class="s">every week  a fresh take per sound, the weakest retires</text>
+<text x="20" y="440" class="s">Her speaking voice never changes. Only the expression is borrowed, re-voiced from her own reference, and the original audio isn't kept.</text>
+</svg>

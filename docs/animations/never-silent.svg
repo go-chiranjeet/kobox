@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" role="img" aria-label="Decision path for every laugh, sigh or other expression. If Chatterbox's live take is ready and Whisper hears the right words, it plays. If the take is late or garbled after one retry, a real take from her expression bank plays, followed by Kokoro saying the words. If neither is available, Kokoro speaks and the cue becomes a short beat. It is never read aloud and never faked.">
+<style>
+svg{--ink:#1f2328;--dim:#59636e;--line:#c9d1d9;--card:#f6f8fa;--kk:#0a8a7a;--cb:#d1336b;--wh:#b8770a;--bank:#7048e8}
+@media (prefers-color-scheme:dark){svg{--ink:#e6edf3;--dim:#9198a1;--line:#3d444d;--card:#161b22;--kk:#3ccab4;--cb:#ff6b9a;--wh:#f2b443;--bank:#a78bfa}}
+text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.t{font-size:14px;font-weight:600}.s{font-size:12px;fill:var(--dim)}
+.card{fill:var(--card);stroke:var(--line);stroke-width:1.2}
+.arrow{stroke:var(--line);stroke-width:1.6;fill:none;marker-end:url(#a)}
+.lab{font-size:11.5px;fill:var(--dim);font-weight:600}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8c959f"/></marker></defs>
+
+<text x="20" y="36" class="t" style="font-size:15px">Every expression has a way out: none ends in silence</text>
+
+<rect x="20" y="172" width="150" height="50" rx="10" class="card"/>
+<text x="95" y="194" class="t" text-anchor="middle">A laugh, sigh,</text><text x="95" y="211" class="s" text-anchor="middle">gasp or mood line</text>
+
+<rect x="220" y="172" width="190" height="50" rx="10" class="card"/>
+<text x="315" y="194" class="t" text-anchor="middle">Live take ready</text><text x="315" y="211" class="s" text-anchor="middle">in time?</text>
+
+<rect x="470" y="72" width="200" height="50" rx="10" class="card"/>
+<text x="570" y="94" class="t" text-anchor="middle" style="fill:var(--wh)">Whisper heard</text><text x="570" y="111" class="s" text-anchor="middle">the right words?</text>
+
+<rect x="470" y="272" width="200" height="50" rx="10" class="card"/>
+<text x="570" y="294" class="t" text-anchor="middle" style="fill:var(--bank)">Real take in</text><text x="570" y="311" class="s" text-anchor="middle">her expression bank?</text>
+
+<rect id="oA" x="740" y="72" width="200" height="50" rx="10" class="card"/>
+<text x="840" y="94" class="t" text-anchor="middle" style="fill:var(--cb)">Live performance</text><text x="840" y="111" class="s" text-anchor="middle">plays, matched</text>
+<rect id="oB" x="740" y="232" width="200" height="50" rx="10" class="card"/>
+<text x="840" y="254" class="t" text-anchor="middle" style="fill:var(--bank)">Her real laugh</text><text x="840" y="271" class="s" text-anchor="middle">then Kokoro says the words</text>
+<rect id="oC" x="740" y="312" width="200" height="50" rx="10" class="card"/>
+<text x="840" y="334" class="t" text-anchor="middle" style="fill:var(--kk)">Kokoro speaks</text><text x="840" y="351" class="s" text-anchor="middle">the cue becomes a beat</text>
+
+<path d="M170 197H214" class="arrow"/>
+<path d="M410 190C440 190 440 97 464 97" class="arrow"/><text x="446" y="132" class="lab">yes</text>
+<path d="M410 204C440 204 440 297 464 297" class="arrow"/><text x="446" y="270" class="lab">late</text>
+<path d="M670 97H734" class="arrow"/><text x="690" y="90" class="lab">yes</text>
+<path d="M570 122V266" class="arrow"/><text x="578" y="190" class="lab">no, even after</text><text x="578" y="205" class="lab">one re-render</text>
+<path d="M600 72C600 44 540 44 540 66" class="arrow"/><text x="570" y="40" class="lab" text-anchor="middle">retry once</text>
+<path d="M670 290C705 290 705 257 734 257" class="arrow"/><text x="690" y="268" class="lab">yes</text>
+<path d="M670 304C705 304 705 337 734 337" class="arrow"/><text x="690" y="332" class="lab">no</text>
+
+<!-- outcome highlights -->
+<rect x="740" y="72" width="200" height="50" rx="10" fill="none" stroke="var(--cb)" stroke-width="2.5" opacity="0">
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.2;0.22;0.31;0.333;1"/></rect>
+<rect x="740" y="232" width="200" height="50" rx="10" fill="none" stroke="var(--bank)" stroke-width="2.5" opacity="0">
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.55;0.553;0.64;0.667;1"/></rect>
+<rect x="740" y="312" width="200" height="50" rx="10" fill="none" stroke="var(--kk)" stroke-width="2.5" opacity="0">
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.885;0.887;0.98;1"/></rect>
+
+<!-- travelling lines -->
+<circle r="7" fill="var(--cb)">
+<animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;0.22;1" path="M170 197L410 197C440 197 440 97 470 97L740 97"/>
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.3;0.333;1"/></circle>
+<circle r="7" fill="var(--bank)" opacity="0">
+<animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.333;0.553;1" path="M170 197L410 197C440 197 440 297 470 297L670 297C705 297 705 257 740 257"/>
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.333;0.334;0.64;0.667;1"/></circle>
+<circle r="7" fill="var(--kk)" opacity="0">
+<animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.667;0.887;1" path="M170 197L410 197C440 197 440 297 470 297L670 297C705 297 705 337 740 337"/>
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.667;0.668;0.97;1"/></circle>
+
+<!-- scenario captions -->
+<text x="20" y="400" class="s" opacity="0">Usually: the live take is rendered while she talks, checked, and played. On this Mac that was 9 of 9 in testing.
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.32;0.333;1"/></text>
+<text x="20" y="400" class="s" opacity="0">Live take late: a real take from her bank plays at once, and Kokoro follows with the words. No long wait, no fake laugh.
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.333;0.334;0.655;0.667;1"/></text>
+<text x="20" y="400" class="s" opacity="0">Nothing available (first start, no bank yet): Kokoro speaks and the cue becomes a short beat. It is never read aloud.
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.667;0.668;1"/></text>
+</svg>

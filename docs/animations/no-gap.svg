@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" role="img" aria-label="Timeline comparison. Before: she says the first line, then waits in silence for the laugh, gives up and says it plainly. With Kobox: Chatterbox renders the laugh while Kokoro is already speaking, so the laugh is ready before it is needed and plays with no gap.">
+<style>
+svg{--ink:#1f2328;--dim:#59636e;--line:#c9d1d9;--kk:#0a8a7a;--cb:#d1336b;--wh:#b8770a;--on:#fff}
+@media (prefers-color-scheme:dark){svg{--ink:#e6edf3;--dim:#9198a1;--line:#3d444d;--kk:#3ccab4;--cb:#ff6b9a;--wh:#f2b443;--on:#0d1117}}
+text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.t{font-size:15px;font-weight:600}.s{font-size:12px;fill:var(--dim)}.on{font-size:12px;font-weight:600;fill:var(--on)}
+.kk{fill:var(--kk)}.cb{fill:var(--cb)}.wh{fill:var(--wh)}
+.grow{transform-box:fill-box;transform-origin:left center}
+@keyframes rA{0%{transform:scaleX(0)}48%,100%{transform:scaleX(1)}}
+@keyframes rB{0%{transform:scaleX(0)}22%,100%{transform:scaleX(1)}}
+@keyframes chk{0%,22%{transform:scaleX(0)}24%,100%{transform:scaleX(1)}}
+@keyframes ph{0%{transform:translateX(0)}82%{transform:translateX(740px)}100%{transform:translateX(740px)}}
+@keyframes hush{0%,24%{opacity:.25}26%,44%{opacity:1}46%,100%{opacity:.25}}
+@keyframes ready{0%,23%{opacity:0}25%,100%{opacity:1}}
+.rA{animation:rA 9s linear infinite}.rB{animation:rB 9s linear infinite}.chk{animation:chk 9s linear infinite}
+.ph{animation:ph 9s linear infinite}.hush{animation:hush 9s infinite}.ready{animation:ready 9s infinite}
+</style>
+
+<text x="20" y="34" class="t">Same reply, same Mac, same clock</text>
+<text x="940" y="34" class="s" text-anchor="end">"Okay. [laughs] You did it! The rest can wait."</text>
+
+<!-- before -->
+<text x="20" y="92" class="t">Before</text>
+<text x="20" y="112" class="s">waits 1.5 s, then gives up</text>
+<rect x="200" y="74" width="220" height="34" rx="6" class="kk"/><text x="214" y="96" class="on">Okay.</text>
+<rect x="420" y="74" width="150" height="34" rx="6" fill="none" stroke="var(--line)" stroke-dasharray="5 4"/>
+<text x="495" y="96" class="s hush" text-anchor="middle">silence…</text>
+<rect x="570" y="74" width="200" height="34" rx="6" class="kk"/><text x="584" y="96" class="on">You did it! (laugh lost)</text>
+<rect x="770" y="74" width="170" height="34" rx="6" class="kk"/><text x="784" y="96" class="on">The rest can wait.</text>
+<rect x="200" y="116" width="440" height="8" rx="4" class="cb grow rA" opacity=".55"/>
+<text x="648" y="125" class="s">laugh still rendering</text>
+
+<!-- kobox -->
+<text x="20" y="222" class="t">Kobox</text>
+<text x="20" y="242" class="s">renders while she talks</text>
+<rect x="200" y="204" width="226" height="34" rx="6" class="kk"/><text x="214" y="226" class="on">Okay.</text>
+<rect x="416" y="204" width="260" height="34" rx="6" class="cb"/><text x="430" y="226" class="on">ha-ha… You did it!</text>
+<rect x="666" y="204" width="274" height="34" rx="6" class="kk"/><text x="680" y="226" class="on">The rest can wait.</text>
+<rect x="200" y="246" width="200" height="8" rx="4" class="cb grow rB" opacity=".55"/>
+<rect x="400" y="246" width="16" height="8" rx="4" class="wh grow chk"/>
+<text x="424" y="255" class="s ready">✓ rendered, matched and checked before it's needed</text>
+
+<!-- time axis + playhead -->
+<line x1="200" y1="300" x2="940" y2="300" stroke="var(--line)"/>
+<text x="200" y="320" class="s">0 s</text><text x="420" y="320" class="s">first line ends</text>
+<text x="940" y="320" class="s" text-anchor="end">time →</text>
+<g class="ph"><line x1="200" y1="62" x2="200" y2="304" stroke="var(--ink)" stroke-width="2"/><circle cx="200" cy="300" r="4" fill="var(--ink)"/></g>
+
+<text x="20" y="350" class="s">The first sound comes from Kokoro in 0.1-0.3 s. Chatterbox renders during the speech instead of after it,</text><text x="20" y="368" class="s">so the laugh joins the stream with a 20 ms crossfade. No silence, nothing lost.</text>
+</svg>

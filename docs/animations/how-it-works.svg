@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 430" role="img" aria-label="Kobox splits a reply into lines: plain lines go to Kokoro and play instantly, the laughing line goes to Chatterbox, is matched to Kokoro's level and tone, checked by Whisper, and joins the same audio stream before it is needed.">
+<style>
+svg{--ink:#1f2328;--dim:#59636e;--line:#c9d1d9;--card:#f6f8fa;--kk:#0a8a7a;--cb:#d1336b;--wh:#b8770a;--bank:#7048e8;--on:#ffffff}
+@media (prefers-color-scheme:dark){svg{--ink:#e6edf3;--dim:#9198a1;--line:#3d444d;--card:#161b22;--kk:#3ccab4;--cb:#ff6b9a;--wh:#f2b443;--bank:#a78bfa;--on:#0d1117}}
+text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.t{font-size:15px;font-weight:600}.s{font-size:12px;fill:var(--dim)}.m{font-size:12.5px}
+.card{fill:var(--card);stroke:var(--line);stroke-width:1.2}
+.arrow{stroke:var(--line);stroke-width:1.6;fill:none;marker-end:url(#a)}
+.kk{fill:var(--kk)}.cb{fill:var(--cb)}
+.chip text,.on{font-size:12px;font-weight:600;fill:var(--on)}
+@keyframes in{0%,4%{opacity:0}9%,100%{opacity:1}}
+@keyframes c1{0%,10%{transform:translate(0,0);opacity:1}20%{transform:translate(178px,-13px);opacity:1}24%,100%{transform:translate(178px,-13px);opacity:0}}
+@keyframes c3{0%,14%{transform:translate(0,0);opacity:1}24%{transform:translate(178px,-58px);opacity:1}28%,100%{transform:translate(178px,-58px);opacity:0}}
+@keyframes c2{0%,10%{transform:translate(0,0);opacity:1}20%,46%{transform:translate(178px,62px);opacity:1}54%{transform:translate(398px,62px)}62%{transform:translate(548px,62px);opacity:1}66%,100%{transform:translate(548px,62px);opacity:0}}
+@keyframes busy{0%,20%{opacity:0}24%,44%{opacity:1}48%,100%{opacity:0}}
+@keyframes tick{0%,62%{opacity:0}65%,100%{opacity:1}}
+@keyframes seg1{0%,24%{transform:scaleX(0)}27%,100%{transform:scaleX(1)}}
+@keyframes seg3{0%,30%{transform:scaleX(0)}33%,100%{transform:scaleX(1)}}
+@keyframes seg2{0%,66%{transform:scaleX(0)}69%,100%{transform:scaleX(1)}}
+@keyframes play{0%,26%{transform:translateX(0);opacity:0}27%{opacity:1}96%{transform:translateX(915px);opacity:1}100%{transform:translateX(915px);opacity:0}}
+.c1{animation:c1 10s infinite}.c2{animation:c2 10s infinite}.c3{animation:c3 10s infinite}
+.busy{animation:busy 10s infinite}.tick{animation:tick 10s infinite}
+.seg{transform-box:fill-box;transform-origin:left center}
+.s1{animation:seg1 10s infinite}.s2{animation:seg2 10s infinite}.s3{animation:seg3 10s infinite}
+.ph{animation:play 10s linear infinite}
+@keyframes f2{0%,67%{opacity:0}70%,100%{opacity:1}}@keyframes f3{0%,31%{opacity:0}34%,100%{opacity:1}}
+.fade2{animation:f2 10s infinite}.fade3{animation:f3 10s infinite}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8c959f"/></marker></defs>
+
+<text x="20" y="38" class="t">Her reply</text>
+<rect x="20" y="52" width="210" height="150" rx="10" class="card"/>
+<text x="36" y="92" class="m">Okay.</text>
+<text x="36" y="128" class="m"><tspan fill="var(--cb)" font-weight="600">[laughs]</tspan> You did it!</text>
+<text x="36" y="164" class="m">The rest can wait.</text>
+
+<text x="250" y="38" class="t">Planned lines</text>
+<g class="chip c1"><rect x="250" y="76" width="120" height="28" rx="14" class="kk"/><text x="310" y="95" text-anchor="middle">1 · plain</text></g>
+<g class="chip c2"><rect x="250" y="121" width="120" height="28" rx="14" class="cb"/><text x="310" y="140" text-anchor="middle">2 · laugh</text></g>
+<g class="chip c3"><rect x="250" y="166" width="120" height="28" rx="14" class="kk"/><text x="310" y="185" text-anchor="middle">3 · plain</text></g>
+
+<rect x="428" y="52" width="190" height="62" rx="10" class="card"/>
+<text x="446" y="78" class="t" fill="var(--kk)" style="fill:var(--kk)">Kokoro</text>
+<text x="446" y="98" class="s">plain lines · ready in ~0.2 s</text>
+
+<rect x="428" y="168" width="190" height="62" rx="10" class="card"/>
+<text x="446" y="194" class="t" style="fill:var(--cb)">Chatterbox</text>
+<text x="446" y="214" class="s">performs the real laugh</text>
+<text x="600" y="194" class="s busy" text-anchor="end">rendering…</text>
+
+<rect x="648" y="168" width="130" height="62" rx="10" class="card"/>
+<text x="664" y="194" class="t">Match</text>
+<text x="664" y="214" class="s">level · tone · trim</text>
+
+<rect x="800" y="168" width="140" height="62" rx="10" class="card"/>
+<text x="816" y="194" class="t" style="fill:var(--wh)">Whisper</text>
+<text x="816" y="214" class="s">heard the right words?</text>
+<text x="930" y="160" class="t tick" text-anchor="end" style="fill:var(--wh)">✓ checked</text>
+
+<path d="M375 90H422" class="arrow"/><path d="M375 180C400 180 400 100 422 96" class="arrow"/>
+<path d="M375 135C400 135 400 199 422 199" class="arrow"/>
+<path d="M618 199H642" class="arrow"/><path d="M778 199H794" class="arrow"/>
+<path d="M428 108C398 112 396 150 396 236C396 290 300 286 290 310" class="arrow"/>
+<path d="M870 230V306" class="arrow"/>
+
+<text x="20" y="300" class="t">One stream to the speaker</text>
+<text x="940" y="300" class="s" text-anchor="end">20 ms crossfades · one loudness · one voice</text>
+<rect x="20" y="318" width="920" height="40" rx="8" fill="none" stroke="var(--line)"/>
+<rect x="22" y="320" width="300" height="36" rx="6" class="kk seg s1"/>
+<rect x="312" y="320" width="290" height="36" rx="6" class="cb seg s2"/>
+<rect x="592" y="320" width="346" height="36" rx="6" class="kk seg s3"/>
+<text x="40" y="343" class="on">Okay.</text>
+<text x="330" y="343" class="on fade2">ha-ha… You did it!</text>
+<text x="610" y="343" class="on fade3">The rest can wait.</text>
+<line x1="22" y1="312" x2="22" y2="364" stroke="var(--ink)" stroke-width="2" class="ph"/>
+
+<text x="20" y="392" class="s">Line 1 plays at once while Chatterbox is still rendering line 2. The laugh is matched and checked, then lands in the stream before the playhead reaches it.</text>
+<text x="20" y="412" class="s">Kokoro also renders every expressive line as a backup, so a late or failed take never means silence.</text>
+</svg>
