@@ -145,4 +145,8 @@ Settings (`voice["kobox"]`): `expression_wait_s`, `start_wait_s`, `bank_wait_s`,
 
 This repository is **exported automatically** from the private app Kobox runs in. Each change there is scrubbed, scanned for anything private, tested, and then published here. Issues and pull requests are welcome; accepted changes are applied upstream and come back through the next sync.
 
-Models, libraries and ideas Kobox builds on are listed in **[CREDITS.md](CREDITS.md)**. Licence: [MIT](LICENSE).
+- **[PROJECT.md](PROJECT.md):** architecture, design decisions, roadmap, and how to build and release a new version.
+- **[CHANGELOG.md](CHANGELOG.md):** what changed in each version.
+- **[CREDITS.md](CREDITS.md):** the models, libraries and ideas Kobox builds on.
+
+Licence: [MIT](LICENSE).
