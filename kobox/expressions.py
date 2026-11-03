@@ -14,6 +14,7 @@ Stored in .runtime/state/expressions/ (REHA's voice only; never the owner's audi
 from __future__ import annotations
 
 import json
+import os
 import logging
 import random
 import re
@@ -74,30 +75,36 @@ class Bank:
         self._last: dict[str, str] = {}
         self.filling = False
         self.load()
-        if not self.index:
+        if not self.index and not os.environ.get("KOBOX_NO_SEED"):
             self.seed()
 
     # -- the starter bank shipped with the package (Kobox repo: kobox/bank/)
-    def seed(self, src: Path | None = None) -> int:
+    def seed(self, src: Path | None = None, merge: bool = False) -> int:
         """First run: copy the shipped bank (her real, checked takes and their scores) so
-        expressions work at once, before any rendering."""
+        expressions work at once, before any rendering. merge=True (after updating the
+        package): add only the shipped takes this bank doesn't have, keeping its own scores."""
         src = src or Path(__file__).with_name("bank")
         try:
             shipped = json.loads((src / "bank.json").read_text("utf-8"))
         except (OSError, ValueError):
             return 0
         (self.root / "takes").mkdir(parents=True, exist_ok=True)
+        added = 0
         for take, d in shipped.items():
+            if merge and take in self.index:
+                continue
             f = src / d["file"]
             if f.exists():
+                added += 1
                 (self.root / d["file"]).write_bytes(f.read_bytes())
                 self.index[take] = {**d, "uses": 0, "last_used": 0}
-        try:
-            self.prefs.update(json.loads((src / "prefs.json").read_text("utf-8")))
-        except (OSError, ValueError):
-            pass
+        if not merge:
+            try:
+                self.prefs.update(json.loads((src / "prefs.json").read_text("utf-8")))
+            except (OSError, ValueError):
+                pass
         self.save()
-        return len(self.index)
+        return added
 
     # -- storage
     def load(self) -> None:

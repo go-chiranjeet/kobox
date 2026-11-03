@@ -720,10 +720,14 @@ class Kobox:
         if value not in ("up", "down"):
             raise ValueError("feedback is up, down, less or more")
         takes = list(self.last.get("takes", []) if takes is None else takes)
+        had_bank_takes = bool(takes)
         if sound and SOUND_WORDS.get(sound, ()) is not None:
             want = SOUND_WORDS.get(sound) or (sound,)
             takes = [t for t in takes if (self.bank.index.get(t) or {}).get("sound") in want]
         what = f"that {sound}" if sound and sound not in ("expression", "sound") else "those"
+        if not takes and had_bank_takes and sound:
+            return {"value": value, "takes": 0, "retired": [], "live": True,
+                    "note": f"Thanks. There wasn't a {sound} from my bank in that reply, so there's nothing stored to change."}
         if not takes:
             note = ("Thanks. That one was performed live, so there's no stored take to keep, but I'll keep doing it that way."
                     if value == "up" else "Got it. That one was performed live, so there's no stored take to drop.")
@@ -732,6 +736,33 @@ class Kobox:
         note = (f"Glad you liked {what}. I'll use it more." if value == "up" else
                 f"Got it, I've dropped {what}." if retired else f"Got it, I'll use {what} less.")
         return {"value": value, "takes": len(takes), "retired": retired, "note": note}
+
+    def hear(self, user_text: str) -> dict | None:
+        """Pass every message from the listener. Kobox learns from it:
+        * a feedback phrase ('that laugh sounded off', 'fewer expressions') -> feedback()
+        * a laugh back ('haha', 'lol', an emoji) within 2 minutes of a reply -> those takes score up
+        Returns what it did (with a sentence the host may say), or None if the message was
+        ordinary conversation, which the host then handles as usual."""
+        fb = parse_feedback(user_text)
+        if fb:
+            value, sound = fb
+            fresh = True
+            if value in ("up", "down"):
+                try:
+                    fresh = (datetime.now() - datetime.fromisoformat(self.last.get("at", ""))).total_seconds() < 600
+                except ValueError:
+                    fresh = False
+            if fresh:
+                return {"kind": "feedback", **self.feedback(value, sound)}
+            return None
+        if self.last.get("takes") and re.search(r"\b(ha(ha)+|lol|lmao|hehe+)\b|😂|🤣|😆|😄", user_text or "", re.I):
+            try:
+                if (datetime.now() - datetime.fromisoformat(self.last["at"])).total_seconds() < 120:
+                    self.bank.feedback(self.last["takes"], 0.15)
+                    return {"kind": "laughed_back", "takes": len(self.last["takes"]), "note": ""}
+            except (KeyError, ValueError):
+                pass
+        return None
 
     def label(self) -> str:
         """Shown under the spoken message: which voice, and how the expressions went."""

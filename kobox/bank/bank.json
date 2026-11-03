@@ -1,0 +1,482 @@
+{
+ "aww-38294500": {
+  "created": 1793697752,
+  "file": "takes/aww-38294500.wav",
+  "note": "Aww.",
+  "score": 1.0,
+  "sound": "aww",
+  "source": "rendered"
+ },
+ "aww-d1314e88": {
+  "created": 1793697907,
+  "file": "takes/aww-d1314e88.wav",
+  "note": "Awww.",
+  "score": 1.0,
+  "sound": "aww",
+  "source": "rendered"
+ },
+ "aww-e3d777d3": {
+  "created": 1793697749,
+  "file": "takes/aww-e3d777d3.wav",
+  "note": "Aww.",
+  "score": 1.0,
+  "sound": "aww",
+  "source": "rendered"
+ },
+ "chuckle-9dc08ef5": {
+  "created": 1793697713,
+  "file": "takes/chuckle-9dc08ef5.wav",
+  "note": "[chuckle]",
+  "score": 1.0,
+  "sound": "chuckle",
+  "source": "rendered"
+ },
+ "chuckle-a6781f99": {
+  "created": 1793697713,
+  "file": "takes/chuckle-a6781f99.wav",
+  "note": "[chuckle] Heh.",
+  "score": 1.0,
+  "sound": "chuckle",
+  "source": "rendered"
+ },
+ "chuckle-f02fd083": {
+  "created": 1793697714,
+  "file": "takes/chuckle-f02fd083.wav",
+  "note": "[chuckle] Heh.",
+  "score": 1.0,
+  "sound": "chuckle",
+  "source": "rendered"
+ },
+ "clear_throat-074c9897": {
+  "created": 1793697729,
+  "file": "takes/clear_throat-074c9897.wav",
+  "note": "[clear throat]",
+  "score": 1.0,
+  "sound": "clear_throat",
+  "source": "rendered"
+ },
+ "clear_throat-1261d870": {
+  "created": 1793697730,
+  "file": "takes/clear_throat-1261d870.wav",
+  "note": "[clear throat]",
+  "score": 1.0,
+  "sound": "clear_throat",
+  "source": "rendered"
+ },
+ "clear_throat-991ce8e1": {
+  "created": 1793697730,
+  "file": "takes/clear_throat-991ce8e1.wav",
+  "note": "[clear throat]",
+  "score": 1.0,
+  "sound": "clear_throat",
+  "source": "rendered"
+ },
+ "gasp-3fa48b7a": {
+  "created": 1793697720,
+  "file": "takes/gasp-3fa48b7a.wav",
+  "note": "[gasp] Oh!",
+  "score": 1.0,
+  "sound": "gasp",
+  "source": "rendered"
+ },
+ "gasp-60501c00": {
+  "created": 1793697724,
+  "file": "takes/gasp-60501c00.wav",
+  "note": "[gasp] Oh!",
+  "score": 1.0,
+  "sound": "gasp",
+  "source": "rendered"
+ },
+ "gasp-dc221f1b": {
+  "created": 1793697722,
+  "file": "takes/gasp-dc221f1b.wav",
+  "note": "[gasp] Oh!",
+  "score": 1.0,
+  "sound": "gasp",
+  "source": "rendered"
+ },
+ "groan-9f107064": {
+  "created": 1793697725,
+  "file": "takes/groan-9f107064.wav",
+  "note": "[groan]",
+  "score": 1.0,
+  "sound": "groan",
+  "source": "rendered"
+ },
+ "groan-aa9d374c": {
+  "created": 1793697727,
+  "file": "takes/groan-aa9d374c.wav",
+  "note": "[groan]",
+  "score": 1.0,
+  "sound": "groan",
+  "source": "rendered"
+ },
+ "groan-b1878570": {
+  "created": 1793697726,
+  "file": "takes/groan-b1878570.wav",
+  "note": "[groan] Ugh.",
+  "score": 1.0,
+  "sound": "groan",
+  "source": "rendered"
+ },
+ "heh-1a28d6ce": {
+  "created": 1793697779,
+  "file": "takes/heh-1a28d6ce.wav",
+  "note": "Heh.",
+  "score": 1.0,
+  "sound": "heh",
+  "source": "rendered"
+ },
+ "heh-d37a02aa": {
+  "created": 1793697919,
+  "file": "takes/heh-d37a02aa.wav",
+  "note": "Heh.",
+  "score": 1.0,
+  "sound": "heh",
+  "source": "rendered"
+ },
+ "heh-fbd84b3f": {
+  "created": 1793697783,
+  "file": "takes/heh-fbd84b3f.wav",
+  "note": "Heh.",
+  "score": 1.0,
+  "sound": "heh",
+  "source": "rendered"
+ },
+ "hmm-41d748b7": {
+  "created": 1793697743,
+  "file": "takes/hmm-41d748b7.wav",
+  "note": "Hmm.",
+  "score": 1.0,
+  "sound": "Hmm.",
+  "source": "rendered"
+ },
+ "hmm-7db82777": {
+  "created": 1793697743,
+  "file": "takes/hmm-7db82777.wav",
+  "note": "Hmm.",
+  "score": 1.0,
+  "sound": "Hmm.",
+  "source": "rendered"
+ },
+ "hmm-d891255a": {
+  "created": 1793697742,
+  "file": "takes/hmm-d891255a.wav",
+  "note": "Hmm.",
+  "score": 1.0,
+  "sound": "Hmm.",
+  "source": "rendered"
+ },
+ "laugh-1c8afe60": {
+  "created": 1793697711,
+  "file": "takes/laugh-1c8afe60.wav",
+  "note": "[laugh] Ha.",
+  "score": 1.0,
+  "sound": "laugh",
+  "source": "rendered"
+ },
+ "laugh-e08e5025": {
+  "created": 1793697712,
+  "file": "takes/laugh-e08e5025.wav",
+  "note": "[laugh]",
+  "score": 1.0,
+  "sound": "laugh",
+  "source": "rendered"
+ },
+ "laugh-fc4829a7": {
+  "created": 1793697710,
+  "file": "takes/laugh-fc4829a7.wav",
+  "note": "[laugh]",
+  "score": 1.0,
+  "sound": "laugh",
+  "source": "rendered"
+ },
+ "mm-hmm-46a1cc58": {
+  "created": 1793697739,
+  "file": "takes/mm-hmm-46a1cc58.wav",
+  "note": "Mm-hmm.",
+  "score": 1.0,
+  "sound": "Mm-hmm.",
+  "source": "rendered"
+ },
+ "mm-hmm-bba976d8": {
+  "created": 1793697741,
+  "file": "takes/mm-hmm-bba976d8.wav",
+  "note": "Mm-hmm.",
+  "score": 1.0,
+  "sound": "Mm-hmm.",
+  "source": "rendered"
+ },
+ "mm-hmm-be3a5a89": {
+  "created": 1793697738,
+  "file": "takes/mm-hmm-be3a5a89.wav",
+  "note": "Mm-hmm.",
+  "score": 1.0,
+  "sound": "Mm-hmm.",
+  "source": "rendered"
+ },
+ "mmm-84a945ac": {
+  "created": 1793697745,
+  "file": "takes/mmm-84a945ac.wav",
+  "note": "Mmm.",
+  "score": 1.0,
+  "sound": "Mmm.",
+  "source": "rendered"
+ },
+ "mmm-aee7a971": {
+  "created": 1793697747,
+  "file": "takes/mmm-aee7a971.wav",
+  "note": "Mmm.",
+  "score": 1.0,
+  "sound": "Mmm.",
+  "source": "rendered"
+ },
+ "mmm-f7f8e694": {
+  "created": 1793697745,
+  "file": "takes/mmm-f7f8e694.wav",
+  "note": "Mmm.",
+  "score": 1.0,
+  "sound": "Mmm.",
+  "source": "rendered"
+ },
+ "ooh-143774f0": {
+  "created": 1793697754,
+  "file": "takes/ooh-143774f0.wav",
+  "note": "Ooh.",
+  "score": 1.0,
+  "sound": "ooh",
+  "source": "rendered"
+ },
+ "ooh-3a152cf1": {
+  "created": 1793697755,
+  "file": "takes/ooh-3a152cf1.wav",
+  "note": "Oooh.",
+  "score": 1.0,
+  "sound": "ooh",
+  "source": "rendered"
+ },
+ "ooh-477e2c19": {
+  "created": 1793697910,
+  "file": "takes/ooh-477e2c19.wav",
+  "note": "Ooh.",
+  "score": 1.0,
+  "sound": "ooh",
+  "source": "rendered"
+ },
+ "oops-0d020f22": {
+  "created": 1793697775,
+  "file": "takes/oops-0d020f22.wav",
+  "note": "Oops.",
+  "score": 1.0,
+  "sound": "oops",
+  "source": "rendered"
+ },
+ "oops-9eebcdfe": {
+  "created": 1793697774,
+  "file": "takes/oops-9eebcdfe.wav",
+  "note": "Oops.",
+  "score": 1.0,
+  "sound": "oops",
+  "source": "rendered"
+ },
+ "oops-ac4fc24d": {
+  "created": 1793697773,
+  "file": "takes/oops-ac4fc24d.wav",
+  "note": "Oops.",
+  "score": 1.0,
+  "sound": "oops",
+  "source": "rendered"
+ },
+ "phew-6629bb07": {
+  "created": 1793697770,
+  "file": "takes/phew-6629bb07.wav",
+  "note": "Phew.",
+  "score": 1.0,
+  "sound": "phew",
+  "source": "rendered"
+ },
+ "phew-c7d9dffc": {
+  "created": 1793697772,
+  "file": "takes/phew-c7d9dffc.wav",
+  "note": "Phew.",
+  "score": 1.0,
+  "sound": "phew",
+  "source": "rendered"
+ },
+ "phew-fc06936e": {
+  "created": 1793697771,
+  "file": "takes/phew-fc06936e.wav",
+  "note": "Phew.",
+  "score": 1.0,
+  "sound": "phew",
+  "source": "rendered"
+ },
+ "shush-295008ca": {
+  "created": 1793697733,
+  "file": "takes/shush-295008ca.wav",
+  "note": "[shush] Shh.",
+  "score": 1.0,
+  "sound": "shush",
+  "source": "rendered"
+ },
+ "shush-b9e9531a": {
+  "created": 1793697735,
+  "file": "takes/shush-b9e9531a.wav",
+  "note": "[shush] Shh.",
+  "score": 1.0,
+  "sound": "shush",
+  "source": "rendered"
+ },
+ "shush-c4b84558": {
+  "created": 1793697737,
+  "file": "takes/shush-c4b84558.wav",
+  "note": "[shush] Shh.",
+  "score": 1.0,
+  "sound": "shush",
+  "source": "rendered"
+ },
+ "sigh-39187563": {
+  "created": 1793697718,
+  "file": "takes/sigh-39187563.wav",
+  "note": "[sigh] Mm.",
+  "score": 1.0,
+  "sound": "sigh",
+  "source": "rendered"
+ },
+ "sigh-44ec2ec5": {
+  "created": 1793697715,
+  "file": "takes/sigh-44ec2ec5.wav",
+  "note": "[sigh] Mm.",
+  "score": 1.0,
+  "sound": "sigh",
+  "source": "rendered"
+ },
+ "sigh-cb5c2c8e": {
+  "created": 1793697716,
+  "file": "takes/sigh-cb5c2c8e.wav",
+  "note": "[sigh] Hm.",
+  "score": 1.0,
+  "sound": "sigh",
+  "source": "rendered"
+ },
+ "sniff-04e56425": {
+  "created": 1793697728,
+  "file": "takes/sniff-04e56425.wav",
+  "note": "[sniff]",
+  "score": 1.0,
+  "sound": "sniff",
+  "source": "rendered"
+ },
+ "sniff-a4df3cd4": {
+  "created": 1793697728,
+  "file": "takes/sniff-a4df3cd4.wav",
+  "note": "[sniff]",
+  "score": 1.0,
+  "sound": "sniff",
+  "source": "rendered"
+ },
+ "sniff-f415750c": {
+  "created": 1793697729,
+  "file": "takes/sniff-f415750c.wav",
+  "note": "[sniff]",
+  "score": 1.0,
+  "sound": "sniff",
+  "source": "rendered"
+ },
+ "ugh-6625b593": {
+  "created": 1793697758,
+  "file": "takes/ugh-6625b593.wav",
+  "note": "Ugh.",
+  "score": 1.0,
+  "sound": "ugh",
+  "source": "rendered"
+ },
+ "ugh-d19ed167": {
+  "created": 1793697761,
+  "file": "takes/ugh-d19ed167.wav",
+  "note": "Ugh.",
+  "score": 1.0,
+  "sound": "ugh",
+  "source": "rendered"
+ },
+ "ugh-dbfab81c": {
+  "created": 1793697911,
+  "file": "takes/ugh-dbfab81c.wav",
+  "note": "Ugh.",
+  "score": 1.0,
+  "sound": "ugh",
+  "source": "rendered"
+ },
+ "uh-oh-0a573c7c": {
+  "created": 1793697776,
+  "file": "takes/uh-oh-0a573c7c.wav",
+  "note": "Uh-oh.",
+  "score": 1.0,
+  "sound": "uh-oh",
+  "source": "rendered"
+ },
+ "uh-oh-4c343625": {
+  "created": 1793697913,
+  "file": "takes/uh-oh-4c343625.wav",
+  "note": "Uh-oh.",
+  "score": 1.0,
+  "sound": "uh-oh",
+  "source": "rendered"
+ },
+ "uh-oh-b297764c": {
+  "created": 1793697778,
+  "file": "takes/uh-oh-b297764c.wav",
+  "note": "Uh-oh.",
+  "score": 1.0,
+  "sound": "uh-oh",
+  "source": "rendered"
+ },
+ "whoa-693902b6": {
+  "created": 1793697762,
+  "file": "takes/whoa-693902b6.wav",
+  "note": "Whoa.",
+  "score": 1.0,
+  "sound": "whoa",
+  "source": "rendered"
+ },
+ "whoa-be81de0d": {
+  "created": 1793697764,
+  "file": "takes/whoa-be81de0d.wav",
+  "note": "Whoa!",
+  "score": 1.0,
+  "sound": "whoa",
+  "source": "rendered"
+ },
+ "whoa-cb285df8": {
+  "created": 1793697765,
+  "file": "takes/whoa-cb285df8.wav",
+  "note": "Whoa.",
+  "score": 1.0,
+  "sound": "whoa",
+  "source": "rendered"
+ },
+ "yay-40440024": {
+  "created": 1793697766,
+  "file": "takes/yay-40440024.wav",
+  "note": "Yay!",
+  "score": 1.0,
+  "sound": "yay",
+  "source": "rendered"
+ },
+ "yay-9179d73b": {
+  "created": 1793697767,
+  "file": "takes/yay-9179d73b.wav",
+  "note": "Yay!",
+  "score": 1.0,
+  "sound": "yay",
+  "source": "rendered"
+ },
+ "yay-c44a36e0": {
+  "created": 1793697768,
+  "file": "takes/yay-c44a36e0.wav",
+  "note": "Yay!",
+  "score": 1.0,
+  "sound": "yay",
+  "source": "rendered"
+ }
+}

@@ -87,7 +87,7 @@ class Ears:
             self._last_used = time.time()
             t = time.time()
             segs = m.transcribe(audio.astype(np.float32), language=self.cfg.get("language", "en"),
-                                initial_prompt=self.cfg.get("vocabulary") or None,
+                                **({"initial_prompt": self.cfg["vocabulary"]} if self.cfg.get("vocabulary") else {}),
                                 no_context=True, suppress_blank=True, new_segment_callback=on_segment)
             took = time.time() - t
             self.rtf = 0.7 * self.rtf + 0.3 * max(0.02, took / max(1.0, dur))   # keep learning this Mac's speed
@@ -113,7 +113,7 @@ class Ears:
             m = self._get()
             self._last_used = time.time()
             segs = m.transcribe(audio.astype(np.float32), language=self.cfg.get("language", "en"),
-                                initial_prompt=self.cfg.get("vocabulary") or None,
+                                **({"initial_prompt": self.cfg["vocabulary"]} if self.cfg.get("vocabulary") else {}),
                                 no_context=True, suppress_blank=True)
         finally:
             self._lock.release()

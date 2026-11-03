@@ -100,10 +100,10 @@ text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--
 <circle cx="170" cy="402" r="11" class="take"/>
 <circle cx="204" cy="402" r="11" class="take"/>
 <circle cx="238" cy="402" r="11" class="take new" stroke="var(--wh)" stroke-width="3"/><text x="258" y="406" class="s new">learned</text>
-<text x="520" y="290" class="s">👍  that take is used more often</text>
-<text x="520" y="316" class="s">👎  that take retires</text>
-<text x="520" y="342" class="s">Less / More  how often she expresses herself</text>
-<text x="520" y="368" class="s">you laugh back  the takes she used score up</text>
+<text x="520" y="290" class="s">👍 or "I loved that laugh"  that take is used more often</text>
+<text x="520" y="316" class="s">👎 or "that laugh sounded off"  that take retires</text>
+<text x="520" y="342" class="s">"fewer expressions" / "be more expressive"  how often</text>
+<text x="520" y="368" class="s">they laugh back ("haha", 😂)  the takes she used score up</text>
 <text x="520" y="394" class="s">every week  a fresh take per sound, the weakest retires</text>
 <text x="20" y="440" class="s">Her speaking voice never changes. Only the expression is borrowed, re-voiced from her own reference, and the original audio isn't kept.</text>
 </svg>

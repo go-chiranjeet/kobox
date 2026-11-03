@@ -14,7 +14,7 @@ It was built for REHA, a local, private AI assistant. Her voice needed to start 
 
 | | |
 |---|---|
-| Version | **0.1.0** (see [CHANGELOG](CHANGELOG.md)) |
+| Version | **0.2.0** (see [CHANGELOG](CHANGELOG.md)) |
 | Tested on | macOS, Apple Silicon (M4 Pro, 24 GB) |
 | Expected to work | other Apple Silicon Macs. Linux works with Chatterbox on CPU (slower, so more lines come from the expression bank) |
 | Tests | model-free unit tests run in CI on every push |
@@ -41,7 +41,9 @@ It was built for REHA, a local, private AI assistant. Her voice needed to start 
 | `kobox/hearing.py` | Local Whisper (whisper.cpp). `verify()` never queues behind live listening. |
 | `kobox/chatterbox_worker.py` | Long-lived Chatterbox Turbo process speaking JSON lines; runs in its own Python environment. |
 
-How the pieces move is animated in the README: [how it works](docs/animations/how-it-works.svg), [no gap](docs/animations/no-gap.svg), [one voice](docs/animations/one-voice.svg), [never silent](docs/animations/never-silent.svg), [learns](docs/animations/learns.svg).
+`kobox/bank/` is her shipped expression bank (rendered takes with learned scores), exported from REHA on every sync. `kobox/__main__.py` holds the CLI and the local `serve` service. `Kobox.hear()`, `Kobox.feedback()`, `parse_feedback()` and `prompt_guide()` (in `engine.py`) are the learning loop and the LLM guide.
+
+How the pieces move is animated in the README: [how it works](docs/animations/how-it-works.svg), [no gap](docs/animations/no-gap.svg), [one voice](docs/animations/one-voice.svg), [never silent](docs/animations/never-silent.svg), [learns](docs/animations/learns.svg), [the loop](docs/animations/the-loop.svg).
 
 ## Decisions and why
 

@@ -421,3 +421,71 @@ def test_only_pure_expressions_are_learned(heard, sound):
     from kobox.expressions import classify_heard
     assert classify_heard(heard) == sound
 
+
+
+def test_bank_export_and_seed_round_trip(isolated_home, tmp_path):
+    from kobox.expressions import Bank
+    b = Bank()
+    keep = b.add("laugh", tone(0.3), score=1.6)
+    gone = b.add("sigh", tone(0.3))
+    b.feedback([gone], -0.6)                                             # retired: not shipped
+    b.add("laugh", tone(0.3), source="converted")                        # someone else's recording: never shipped
+    assert b.export(tmp_path / "ship") == 1
+    fresh = Bank(tmp_path / "home")                                     # a new install, empty...
+    assert fresh.seed(tmp_path / "ship") == 1                           # ...gets her real take with its learned score
+    assert fresh.index[keep]["score"] == 1.6 and fresh.pick("laugh")[0] == keep
+
+
+@pytest.mark.parametrize("said,expect", [
+    ("That laugh sounded off.", ("down", "laugh")), ("I loved that laugh!", ("up", "laugh")),
+    ("Fewer expressions please", ("less", None)), ("be more expressive", ("more", None)),
+    ("The laugh track in the video sounded off to everyone at the review", None), ("hello there", None),
+])
+def test_parse_feedback(said, expect):
+    from kobox.engine import parse_feedback
+    assert parse_feedback(said) == expect
+
+
+def test_feedback_api_retires_only_the_named_sound(isolated_home, monkeypatch):
+    v, _ = make_voice(monkeypatch, FakeCB(), FakeEars("x"))
+    laugh, sigh = v.kobox.bank.add("laugh", tone(0.3)), v.kobox.bank.add("sigh", tone(0.3))
+    v.kobox.last = {"takes": [laugh, sigh]}
+    r = v.kobox.feedback("down", "laugh")
+    assert r["retired"] == [laugh] and v.kobox.bank.active("sigh") == [sigh] and "dropped that laugh" in r["note"]
+    assert v.kobox.feedback("less")["expressiveness"] == 1
+    v.kobox.last = {"takes": []}
+    assert v.kobox.feedback("down")["live"] is True
+
+
+def test_prompt_guide_tracks_expressiveness():
+    from kobox.engine import prompt_guide
+    g = prompt_guide(0)
+    assert "[laughs]" in g and "rarely" in g and "don't copy them back" in g
+    assert "generously" in prompt_guide(4)
+
+
+def test_hear_learns_from_the_listener(isolated_home, monkeypatch):
+    from datetime import datetime
+    v, _ = make_voice(monkeypatch, FakeCB(), FakeEars("x"))
+    laugh = v.kobox.bank.add("laugh", tone(0.3))
+    v.kobox.last = {"takes": [laugh], "at": datetime.now().isoformat(timespec="seconds")}
+    assert v.kobox.hear("hahaha 😂")["kind"] == "laughed_back"
+    assert v.kobox.bank.index[laugh]["score"] == 1.15                      # they laughed back: that take scores up
+    assert v.kobox.hear("What's on my calendar tomorrow?") is None          # ordinary talk: left to the assistant
+    r = v.kobox.hear("that laugh sounded off")
+    assert r["kind"] == "feedback" and r["takes"] == 1 and "less" in r["note"]   # liked once, so one 👎 makes it rarer
+    assert v.kobox.hear("that laugh sounded off")["retired"] == [laugh]          # a second 👎 retires it
+
+
+def test_bank_update_merges_new_takes_and_keeps_local_scores(isolated_home, tmp_path):
+    from kobox.expressions import Bank
+    up = Bank(tmp_path / "upstream")
+    a = up.add("laugh", tone(0.3))
+    up.export(tmp_path / "ship1")
+    mine = Bank(tmp_path / "mine")
+    mine.seed(tmp_path / "ship1")
+    mine.feedback([a], 0.3)                                                  # my own taste
+    b = up.add("sigh", tone(0.3))                                            # upstream learned a new take
+    up.export(tmp_path / "ship2")
+    assert mine.seed(tmp_path / "ship2", merge=True) == 1
+    assert mine.index[a]["score"] == 1.3 and b in mine.index

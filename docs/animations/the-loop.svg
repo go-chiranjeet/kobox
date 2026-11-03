@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" role="img" aria-label="How Kobox fits into an assistant and keeps learning. A user message goes to Kobox's hear(); ordinary conversation goes on to the assistant's LLM, which writes cues using the expressions guide, and Kobox speaks the reply. When the listener laughs back or says a take sounded off, hear() updates her expression bank, and the bank's expressiveness level shapes the guide. Upstream, REHA's own bank is published through a signed, scanned sync to GitHub, and update-bank merges her newer takes into a user's bank.">
+<style>
+svg{--ink:#1f2328;--dim:#59636e;--line:#c9d1d9;--card:#f6f8fa;--kk:#0a8a7a;--cb:#d1336b;--wh:#b8770a;--bank:#7048e8;--grey:#8c959f}
+@media (prefers-color-scheme:dark){svg{--ink:#e6edf3;--dim:#9198a1;--line:#3d444d;--card:#161b22;--kk:#3ccab4;--cb:#ff6b9a;--wh:#f2b443;--bank:#a78bfa;--grey:#6e7681}}
+text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--ink)}
+.t{font-size:14px;font-weight:600}.s{font-size:12px;fill:var(--dim)}.lab{font-size:11.5px;fill:var(--dim);font-weight:600}
+.card{fill:var(--card);stroke:var(--line);stroke-width:1.2}
+.arrow{stroke:var(--line);stroke-width:1.6;fill:none;marker-end:url(#a)}
+.take{fill:var(--bank)}
+@keyframes grow{0%,62%{transform:scale(1)}68%,100%{transform:scale(1.4)}}
+@keyframes newtake{0%,88%{opacity:0}93%,100%{opacity:1}}
+.grow{transform-box:fill-box;transform-origin:center;animation:grow 12s infinite}
+.newtake{animation:newtake 12s infinite}
+</style>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8c959f"/></marker></defs>
+
+<text x="20" y="32" class="t" style="font-size:15px">In your assistant: speak, hear, learn</text>
+
+<rect x="20" y="58" width="150" height="62" rx="10" class="card"/>
+<text x="95" y="84" class="t" text-anchor="middle">Listener</text><text x="95" y="103" class="s" text-anchor="middle">talks or types</text>
+
+<rect x="230" y="58" width="170" height="62" rx="10" class="card"/>
+<text x="315" y="84" class="t" text-anchor="middle" style="fill:var(--bank)">kobox.hear()</text><text x="315" y="103" class="s" text-anchor="middle">feedback? laugh-back?</text>
+
+<rect x="460" y="58" width="220" height="62" rx="10" class="card"/>
+<text x="570" y="84" class="t" text-anchor="middle">Your assistant's LLM</text><text x="570" y="103" class="s" text-anchor="middle">+ expressions guide: writes cues</text>
+
+<rect x="740" y="58" width="200" height="62" rx="10" class="card"/>
+<text x="840" y="84" class="t" text-anchor="middle" style="fill:var(--cb)">kobox.speak()</text><text x="840" y="103" class="s" text-anchor="middle">live take · bank take · beat</text>
+
+<path d="M170 89H224" class="arrow"/><path d="M400 89H454" class="arrow"/><text x="427" y="80" class="lab" text-anchor="middle">talk</text>
+<path d="M680 89H734" class="arrow"/><text x="707" y="80" class="lab" text-anchor="middle">"[laughs]…"</text>
+<path d="M840 120V160H95V126" class="arrow"/><text x="470" y="154" class="lab" text-anchor="middle">she answers in one voice</text>
+
+<!-- bank -->
+<rect x="300" y="200" width="360" height="92" rx="12" class="card"/>
+<text x="480" y="224" class="t" text-anchor="middle" style="fill:var(--bank)">Her expression bank</text>
+<text x="480" y="282" class="s" text-anchor="middle">real takes · scores · expressiveness 0-4 · in ~/.kobox</text>
+<circle cx="400" cy="250" r="10" class="take grow"/><circle cx="430" cy="250" r="10" class="take"/><circle cx="460" cy="250" r="10" class="take"/>
+<circle cx="490" cy="250" r="10" class="take"/><circle cx="520" cy="250" r="10" class="take"/><circle cx="550" cy="250" r="10" class="take"/>
+<circle cx="580" cy="250" r="10" class="take newtake" stroke="var(--wh)" stroke-width="3"/>
+<path d="M300 120C300 160 330 175 350 196" class="arrow"/><text x="240" y="186" class="lab">feedback, laugh-backs</text>
+<path d="M660 246C760 246 830 200 836 126" class="arrow"/><text x="748" y="212" class="lab">takes</text>
+<path d="M560 200C560 170 570 150 570 126" class="arrow"/><text x="578" y="182" class="lab">less / more</text>
+
+<!-- upstream -->
+<text x="20" y="342" class="t">Her learning, shipped</text>
+<rect x="20" y="356" width="170" height="54" rx="10" class="card"/><text x="105" y="378" class="t" text-anchor="middle">REHA's bank</text><text x="105" y="396" class="s" text-anchor="middle">shaped by her listener</text>
+<rect x="250" y="356" width="200" height="54" rx="10" class="card"/><text x="350" y="378" class="t" text-anchor="middle">sync</text><text x="350" y="396" class="s" text-anchor="middle">scanned · tested · signed</text>
+<rect x="510" y="356" width="190" height="54" rx="10" class="card"/><text x="605" y="378" class="t" text-anchor="middle">GitHub</text><text x="605" y="396" class="s" text-anchor="middle">kobox/bank · Verified</text>
+<rect x="760" y="356" width="180" height="54" rx="10" class="card"/><text x="850" y="378" class="t" text-anchor="middle">update-bank</text><text x="850" y="396" class="s" text-anchor="middle">new takes, your scores kept</text>
+<path d="M190 383H244" class="arrow"/><path d="M450 383H504" class="arrow"/><path d="M700 383H754" class="arrow"/>
+<path d="M850 356C850 320 700 300 664 280" class="arrow"/>
+
+<!-- moving tokens: a reply cycle, a laugh-back, an upstream update -->
+<circle r="7" fill="var(--kk)">
+<animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;1;1" keyTimes="0;0.5;1"
+ path="M95 89L315 89L570 89L840 89L840 160L95 160L95 120"/>
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.5;0.52;1"/></circle>
+<g opacity="0"><text font-size="12" font-weight="600" style="fill:var(--wh)">haha 😂</text>
+<animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.52;0.66;1" path="M110 144L290 144L330 196L380 236"/>
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.52;0.53;0.65;0.66;1"/></g>
+<circle r="6" fill="var(--bank)" opacity="0">
+<animateMotion dur="12s" repeatCount="indefinite" calcMode="linear" keyPoints="0;0;1;1" keyTimes="0;0.68;0.9;1" path="M105 383L350 383L605 383L850 383L850 330L700 300L590 262"/>
+<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.68;0.69;0.89;0.9;1"/></circle>
+
+<text x="20" y="444" class="s">Every user message goes to hear() first: feedback and laugh-backs teach the bank; everything else is ordinary conversation for your assistant.</text>
+<text x="20" y="462" class="s">Learning stays on each machine. Only REHA's rendered takes are published upstream, never anyone's recordings or conversations.</text>
+</svg>

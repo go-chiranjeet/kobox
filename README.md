@@ -53,7 +53,13 @@ A cue is never read aloud, and Kokoro never fakes a laugh.
 ### 5. An expression bank that learns
 Short sounds are rendered ahead of time, checked, and kept as several takes each: laughs, chuckles, sighs, gasps, groans, sniffs, "ahem", "shh", "mm-hmm", "aww", "ooh", "ugh", "whoa", "yay", "phew", "oops", "uh-oh".
 - They play **instantly**, never the same take twice in a row.
-- Feedback reshapes the bank: 👍 makes a take more likely, 👎 retires it, and Less / More changes how often she expresses herself. In REHA these are buttons under each spoken reply. As a library, call `v.kobox.bank.feedback(v.kobox.last["takes"], +0.3)` (or `-0.6`) and `bank.set_expressiveness(±1)` from your own UI.
+- Feedback reshapes the bank:
+  - 👍 or "I loved that laugh" makes a take more likely;
+  - 👎 or "that laugh sounded off" retires it;
+  - less / more changes how often she expresses herself;
+  - a laugh back ("haha", 😂) scores her takes up.
+
+  In REHA these are buttons under each reply plus her voice commands. In your assistant, use `kobox.hear(user_text)` and `kobox.feedback(...)` (see [INTEGRATION.md](INTEGRATION.md)).
 - A fresh take of every sound is rendered each week.
 
 She can also **learn expressions from someone else's recording**:
@@ -65,6 +71,19 @@ She can also **learn expressions from someone else's recording**:
 Her speaking voice never changes, and the original audio isn't kept.
 
 ![Learning: a recording is cut, singing and words rejected, converted into her voice, checked, and added to the bank; feedback reshapes the bank](docs/animations/learns.svg)
+
+### 6. In your assistant: speak, hear, learn
+Your assistant calls Kobox twice:
+- **`hear()`** gets every user message first. Feedback phrases ("that laugh sounded off", "fewer expressions") and laugh-backs teach the bank; everything else is ordinary conversation.
+- **`speak()`** gets every reply.
+
+The **expressions guide** (`kobox prompt`) tells your LLM which cues exist, how often to use them (following the listener's less/more), and to respond to emotions rather than mirror them.
+
+**Her bank ships with the repo,** including the scores REHA's listener gave each take, so a new install expresses itself at once. `update-bank` merges her newer takes after a `git pull`.
+
+![The loop: a user message goes through hear() to your LLM to speak() and back; laugh-backs and feedback update the bank; REHA's learning ships through a signed sync, GitHub and update-bank](docs/animations/the-loop.svg)
+
+**Integrating takes about 15 lines:** see **[INTEGRATION.md](INTEGRATION.md)**. You can use Python, or the local `kobox serve` service from any language.
 
 ---
 
@@ -112,8 +131,9 @@ macOS on Apple Silicon is the tested setup. You need Python 3.12 for Kobox and P
 git clone https://github.com/go-chiranjeet/kobox && cd kobox
 ./scripts/setup.sh                       # two environments + ~700 MB of models
 .venv/bin/python -m kobox doctor
-.venv/bin/python -m kobox fill-bank      # first run: renders the expression bank (~2 min)
+# her expression bank ships with the repo: expressions work immediately
 .venv/bin/python -m kobox say "Okay. [laughs] You actually did it. The rest can wait."
+.venv/bin/python -m kobox serve                        # local service for any assistant (see INTEGRATION.md)
 .venv/bin/python -m kobox learn someone-laughing.wav   # only recordings you have the right to use
 ```
 
@@ -145,6 +165,7 @@ Settings (`voice["kobox"]`): `expression_wait_s`, `start_wait_s`, `bank_wait_s`,
 
 This repository is **exported automatically** from the private app Kobox runs in. Each change there is scrubbed, scanned for anything private, tested, and then published here. Issues and pull requests are welcome; accepted changes are applied upstream and come back through the next sync.
 
+- **[INTEGRATION.md](INTEGRATION.md):** add Kobox to your own assistant.
 - **[PROJECT.md](PROJECT.md):** architecture, design decisions, roadmap, and how to build and release a new version.
 - **[CHANGELOG.md](CHANGELOG.md):** what changed in each version.
 - **[CREDITS.md](CREDITS.md):** the models, libraries and ideas Kobox builds on.

@@ -2,6 +2,18 @@
 
 All notable changes to Kobox. Versions follow [Semantic Versioning](https://semver.org).
 
+## 0.2.0 (2026-11-03)
+
+- **Ships her expression bank:** 60 checked takes across 20 sounds, with learned scores, so a new install expresses itself immediately. `update-bank` merges newer takes and keeps your own scores.
+- **Learning loop in the library:**
+  - `Kobox.hear(user_text)` learns from feedback phrases and laugh-backs;
+  - `Kobox.feedback(up|down|less|more, sound=…)`;
+  - `parse_feedback()`.
+- **`prompt_guide()` / `kobox prompt`:** the expressions guide for any assistant's LLM (cues, frequency, respond rather than mirror).
+- **`kobox serve`:** a local HTTP service (`/speak`, `/heard`, `/feedback`, `/stop`, `/prompt`, `/status`). It listens on 127.0.0.1 only, refuses browser requests and non-JSON bodies, and takes an optional token.
+- **Optional settings file** (`~/.kobox/config/kobox.json`); the defaults are REHA's exact settings.
+- **Docs:** INTEGRATION.md; a new "the loop" animation.
+
 ## 0.1.0 (2026-11-03)
 
 First public release.

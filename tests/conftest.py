@@ -12,6 +12,7 @@ def isolated_home(tmp_path, monkeypatch):
     """Every test runs against a scratch KOBOX_HOME (no models, no audio device)."""
     home = tmp_path / "kobox"
     monkeypatch.setenv("KOBOX_HOME", str(home))
+    monkeypatch.setenv("KOBOX_NO_SEED", "1")          # tests start from an empty bank unless they seed one
     import kobox.paths
     importlib.reload(kobox.paths)
     for m in list(sys.modules):
