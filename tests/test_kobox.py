@@ -420,3 +420,4 @@ def test_feedback_retires_disliked_and_varies_takes(isolated_home):
 def test_only_pure_expressions_are_learned(heard, sound):
     from kobox.expressions import classify_heard
     assert classify_heard(heard) == sound
+
