@@ -8,4 +8,6 @@ How this repository is protected:
 - **CI is read-only and can't be hijacked.** It uses only GitHub's own actions, pinned to exact commits, with a read-only token. Workflow runs from outside contributors need the owner's approval.
 - **Every published change is scanned** for secrets and personal data before it is pushed. GitHub secret scanning with push protection and Dependabot alerts are on.
 
-**When you install Kobox:** use a tagged release, and check that tags and commits come from this repository's owner.
+- **Every commit and release tag is signed.** GitHub shows them as **Verified**, and unsigned commits are rejected on `main` for everyone, the owner included.
+
+**When you install Kobox:** use a tagged release, and check that it shows as Verified.
