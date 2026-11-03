@@ -709,6 +709,30 @@ class Kobox:
         }
         write_log({"kind": "reply", **self.last, "checks": rep.lines})
 
+    def feedback(self, value: str, sound: str | None = None, takes: list[str] | None = None) -> dict:
+        """The listener's reaction to the last reply (or to `takes`): 'up' uses those takes more,
+        'down' retires them, 'less'/'more' changes how often expressions should be written
+        (see prompt_guide). Returns what happened, with a sentence the host can say."""
+        if value in ("less", "more"):
+            lvl = self.bank.set_expressiveness(-1 if value == "less" else 1)
+            return {"value": value, "expressiveness": lvl, "takes": 0, "retired": [],
+                    "note": f"{'Fewer' if value == 'less' else 'More'} expressions from now on ({lvl}/4)."}
+        if value not in ("up", "down"):
+            raise ValueError("feedback is up, down, less or more")
+        takes = list(self.last.get("takes", []) if takes is None else takes)
+        if sound and SOUND_WORDS.get(sound, ()) is not None:
+            want = SOUND_WORDS.get(sound) or (sound,)
+            takes = [t for t in takes if (self.bank.index.get(t) or {}).get("sound") in want]
+        what = f"that {sound}" if sound and sound not in ("expression", "sound") else "those"
+        if not takes:
+            note = ("Thanks. That one was performed live, so there's no stored take to keep, but I'll keep doing it that way."
+                    if value == "up" else "Got it. That one was performed live, so there's no stored take to drop.")
+            return {"value": value, "takes": 0, "retired": [], "live": True, "note": note}
+        retired = self.bank.feedback(takes, 0.3 if value == "up" else -0.6)
+        note = (f"Glad you liked {what}. I'll use it more." if value == "up" else
+                f"Got it, I've dropped {what}." if retired else f"Got it, I'll use {what} less.")
+        return {"value": value, "takes": len(takes), "retired": retired, "note": note}
+
     def label(self) -> str:
         """Shown under the spoken message: which voice, and how the expressions went."""
         d = self.last or {}
@@ -726,6 +750,65 @@ class Kobox:
         if d.get("first_sound_s") is not None:
             parts.append(f"started {d['first_sound_s']:.1f} s")
         return " · ".join(parts)
+
+
+# ---------------------------------------------------------------- feedback (buttons, voice, any host app)
+_SOUND = r"(?P<sound>laugh|laughter|laughing|giggle|chuckle|sigh|gasp|groan|hum|humming|aww|ooh|ugh|whoa|sniff|expression|sound)s?"
+FEEDBACK_PATTERNS = [
+    ("down", re.compile(r"\b(that|the|your|this)\s+(little\s+|last\s+)?" + _SOUND + r"\s+(sounded|sounds|was|is|felt|seemed)\s+"
+                        r"(a bit\s+|really\s+|so\s+|too\s+|kind of\s+)?(off|weird|wrong|fake|bad|strange|robotic|creepy|awkward|"
+                        r"forced|unnatural|cringe|odd)\b")),
+    ("down", re.compile(r"\bdon'?t\s+(?P<sound>laugh|sigh|gasp|hum|giggle|groan)\s+like that\b")),
+    ("up", re.compile(r"\b(that|the|your|this)\s+(little\s+|last\s+)?" + _SOUND + r"\s+(sounded|sounds|was|is|felt)\s+"
+                      r"(really\s+|so\s+|very\s+)?(great|nice|good|perfect|lovely|natural|real|cute|amazing|beautiful)\b")),
+    ("up", re.compile(r"\bi\s+(love|loved|like|liked)\s+(that|your|the)\s+(little\s+)?" + _SOUND + r"\b")),
+    ("less", re.compile(r"\b(fewer|less)\s+(expressions?|laughing|laughs|sighs|reactions?|sound effects)\b|\btone (it|them|the expressions?) down\b|"
+                        r"\bbe less expressive\b|\bless dramatic\b")),
+    ("more", re.compile(r"\b(more expressive|more expressions?|more reactions?)\b|\bexpress yourself more\b")),
+]
+SOUND_WORDS = {"hum": ("Mm-hmm.", "Hmm.", "Mmm."), "expression": None, "sound": None}
+_SOUND_ALIAS = {"laughter": "laugh", "laughing": "laugh", "giggle": "chuckle", "humming": "hum"}
+
+
+def parse_feedback(text: str) -> tuple[str, str | None] | None:
+    """'That laugh sounded off' -> ('down', 'laugh'); 'fewer expressions' -> ('less', None).
+    Only short messages that match closely, so ordinary conversation never counts."""
+    t = (text or "").strip().lower()
+    words = len(t.split())
+    if words > 12:
+        return None
+    for value, rx in FEEDBACK_PATTERNS:
+        m = rx.search(t)
+        if m:
+            if value in ("up", "down") and words > 8:
+                return None
+            sound = m.groupdict().get("sound")
+            return value, _SOUND_ALIAS.get(sound, sound)
+    return None
+
+
+def prompt_guide(expressiveness: int | None = None, about_user: str = "") -> str:
+    """Instructions for the host assistant's LLM: the cues Kobox performs, how often to use
+    them, and to respond to the user's emotions rather than mirror them. Append it to the
+    system prompt."""
+    from .expressions import EXPRESSIVENESS_TEXT
+    lvl = 2 if expressiveness is None else int(np.clip(expressiveness, 0, 4))
+    who = f" {about_user.strip()}" if about_user.strip() else ""
+    return (
+        "Your voice can perform expressions for real. Put a cue in square brackets right before the words it shapes.\n"
+        "Delivery: [warmly] [softly] [seriously] [slowly] [playfully] [happy] [excited] [surprised] [sarcastic] [dramatic] "
+        "[whispers] [nervously] [annoyed] [tearfully] [normal voice].\n"
+        "Moments: [laughs] [chuckles] [sighs] [gasps] [groans] [sniffs] [clears throat] [shh] [hmm] [pause].\n"
+        "Interjections are performed too; write them as words: Ooh, Aww, Ugh, Whoa, Pfft, Heh, Uh-oh, Yay, Oops, Phew, Mm-hmm.\n"
+        f"Use them when you mean them: in a light or emotional exchange, {EXPRESSIVENESS_TEXT[lvl]}. Vary them. "
+        "In serious work or bad news, use none. [annoyed], [nervously] and [tearfully] are for situations, never aimed at the user; "
+        "sarcasm stays light and never at their expense.\n"
+        f"Responding to the user's emotions{who}: don't copy them back. Respond the way a warm, emotionally intelligent person "
+        "would. They laugh or joke: enjoy it with them, a real laugh or a fond chuckle. They sigh or sound tired: gentle and "
+        "steady, [softly], no jokes. They're frustrated: on their side, a light [groans] at the situation at most, then help. "
+        "They're angry: calm and steady, never angry back. They're excited or proud: genuinely happy for them, [happy], Ooh, Yay, "
+        "a [gasps] at big news. They're sad: tender and quiet, [softly]. They're anxious: unhurried and confident. "
+        "They tease: playful back, warm, never flirtatious.")
 
 
 def judge(intended: str, heard: str, s: dict, names: set[str]) -> tuple[bool, float]:

@@ -74,6 +74,30 @@ class Bank:
         self._last: dict[str, str] = {}
         self.filling = False
         self.load()
+        if not self.index:
+            self.seed()
+
+    # -- the starter bank shipped with the package (Kobox repo: kobox/bank/)
+    def seed(self, src: Path | None = None) -> int:
+        """First run: copy the shipped bank (her real, checked takes and their scores) so
+        expressions work at once, before any rendering."""
+        src = src or Path(__file__).with_name("bank")
+        try:
+            shipped = json.loads((src / "bank.json").read_text("utf-8"))
+        except (OSError, ValueError):
+            return 0
+        (self.root / "takes").mkdir(parents=True, exist_ok=True)
+        for take, d in shipped.items():
+            f = src / d["file"]
+            if f.exists():
+                (self.root / d["file"]).write_bytes(f.read_bytes())
+                self.index[take] = {**d, "uses": 0, "last_used": 0}
+        try:
+            self.prefs.update(json.loads((src / "prefs.json").read_text("utf-8")))
+        except (OSError, ValueError):
+            pass
+        self.save()
+        return len(self.index)
 
     # -- storage
     def load(self) -> None:
@@ -220,6 +244,28 @@ class Bank:
             return added
         finally:
             self.filling = False
+
+    def export(self, dst: Path) -> int:
+        """Write the shareable bank to dst (bank.json + takes/): active takes rendered in her
+        voice, with their learned scores. Takes converted from other people's recordings
+        are never exported (their rights, not ours to publish)."""
+        dst = Path(dst)
+        (dst / "takes").mkdir(parents=True, exist_ok=True)
+        keep = {t: d for t, d in self.index.items() if not d.get("retired") and d.get("source") == "rendered"}
+        out = {}
+        for t, d in sorted(keep.items()):
+            src = self.root / d["file"]
+            if not src.exists():
+                continue
+            (dst / d["file"]).write_bytes(src.read_bytes())
+            out[t] = {"sound": d["sound"], "file": d["file"], "source": "rendered", "note": d.get("note", ""),
+                      "score": round(float(d.get("score", 1.0)), 3), "created": int(d.get("created", 0))}
+        for f in (dst / "takes").glob("*.wav"):
+            if f"takes/{f.name}" not in {d["file"] for d in out.values()}:
+                f.unlink()
+        (dst / "bank.json").write_text(json.dumps(out, indent=1, sort_keys=True), "utf-8")
+        (dst / "prefs.json").write_text(json.dumps({"expressiveness": int(self.prefs.get("expressiveness", 2))}), "utf-8")
+        return len(out)
 
     def summary(self) -> dict:
         act = [d for d in self.index.values() if not d.get("retired")]
