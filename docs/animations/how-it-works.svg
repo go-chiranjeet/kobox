@@ -64,7 +64,7 @@ text{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--
 <path d="M870 230V306" class="arrow"/>
 
 <text x="20" y="300" class="t">One stream to the speaker</text>
-<text x="940" y="300" class="s" text-anchor="end">20 ms crossfades · one loudness · one voice</text>
+<text x="940" y="300" class="s" text-anchor="end">own audio process · 20 ms crossfades · one voice</text>
 <rect x="20" y="318" width="920" height="40" rx="8" fill="none" stroke="var(--line)"/>
 <rect x="22" y="320" width="300" height="36" rx="6" class="kk seg s1"/>
 <rect x="312" y="320" width="290" height="36" rx="6" class="cb seg s2"/>

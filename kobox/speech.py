@@ -6,6 +6,7 @@ import asyncio
 import json
 import logging
 import os
+import sys
 import re
 import shutil
 import threading
@@ -555,6 +556,17 @@ class Voice:
 
     async def warm(self) -> None:
         """Load the Chatterbox model ahead of time so her first laugh isn't late."""
+        if self.engine() == "kobox":
+            # Kokoro's first render and the audio process start are the slow part of a cold first reply
+            loop = asyncio.get_running_loop()
+            try:
+                style = await loop.run_in_executor(None, self._mood_style, None, "neutral")
+                await asyncio.wrap_future(self.kobox.pool.submit(self.kobox._kokoro, "Okay.", style, 1.0, "neutral"))
+                s = sys.modules[type(self.kobox).__module__].settings(self.cfg)     # works as reha.kobox and kobox.engine
+                if s.get("stream", True) and s.get("process_player", True):
+                    await self.kobox._new_player(loop, s).ensure()
+            except Exception as e:
+                log.warning("kobox warm-up failed: %s", e)
         if self.engine() == "kobox" and self.kobox.ears is not None and self.kobox.ears.available():
             # the accuracy check's Whisper model, so the first checked line isn't late
             loop = asyncio.get_running_loop()

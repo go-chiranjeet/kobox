@@ -407,14 +407,17 @@ class ProcPlayer:
         import sys as _sys
         self.loop = asyncio.get_running_loop()
         script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio_out.py")
+        errlog = open(paths.LOGS / "kobox-audio.log", "ab")         # the player's errors, never hidden
         self.proc = await asyncio.create_subprocess_exec(
             _sys.executable, "-I", script, str(self.sr), str(self.xf),
-            stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL)
+            stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=errlog)
+        errlog.close()
         line = await asyncio.wait_for(self.proc.stdout.readline(), 15)
         if line.strip() != b"READY":
             raise RuntimeError("audio output process did not start")
         self.sent_id = self.done_id = 0
         self.next_id = 1
+        self.heard_at = time.monotonic()
         asyncio.ensure_future(self._read())
 
     async def _read(self) -> None:
@@ -424,6 +427,7 @@ class ProcPlayer:
             if not line:
                 break
             parts = line.decode().split()
+            self.heard_at = time.monotonic()
             if not parts:
                 continue
             if parts[0] == "M":
@@ -444,6 +448,8 @@ class ProcPlayer:
 
     async def play(self, x: np.ndarray, on_start: Callable[[], None]) -> None:
         await self.ensure()
+        if self.done_id >= self.sent_id:
+            self.heard_at = time.monotonic()        # a new burst of audio: start the stall clock now
         import struct
         x = np.asarray(x, "<f4")
         cid = self.next_id
@@ -462,6 +468,15 @@ class ProcPlayer:
                 await asyncio.wait_for(self.changed.wait(), 0.25)
             except asyncio.TimeoutError:
                 pass
+            if time.monotonic() - self.heard_at > 3.0:
+                # the player reports ~10x a second while audio is queued: silence means it's stuck
+                self.kill()
+                raise RuntimeError("audio output process stalled (see logs/kobox-audio.log)")
+
+    def kill(self) -> None:
+        if self.alive():
+            self.proc.kill()
+        self.proc, self.marks, self.queued = None, {}, 0
 
     def abort(self) -> None:
         self.marks.clear()

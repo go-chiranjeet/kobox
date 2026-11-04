@@ -2,6 +2,20 @@
 
 All notable changes to Kobox. Versions follow [Semantic Versioning](https://semver.org).
 
+## 0.2.1 (2026-11-04)
+
+**Fixes stutters, breaks and slow starts in real use.**
+- **Audio now plays from its own process** (`kobox/audio_out.py`). Before, it was fed from the host's Python process, so whenever the host was busy (UI messages, an LLM streaming, rendering), the speaker ran dry.
+  - Measured under simulated load: **546 glitches in 7 replies before, 0 after** (worst lateness 195 ms before, 0.3 ms after).
+  - One queue for all audio, so two replies can never overlap.
+  - Line-start markers fire when a line is actually heard.
+  - A watchdog restarts a stuck player instead of hanging the host.
+  - The player's errors are logged to `logs/kobox-audio.log`.
+- **Interrupted replies no longer delay the next one:** Kokoro stops rendering lines that will never be spoken.
+- **A faster first reply:** Kokoro and the audio process are warmed up at start.
+- **Every reply is measured:** glitches, worst lateness and per-step timings, in `last["audio"]` and `last["phases_ms"]`.
+- **Fixed:** the Whisper check crashed when no vocabulary prompt was set.
+
 ## 0.2.0 (2026-11-03)
 
 - **Ships her expression bank:** 60 checked takes across 20 sounds, with learned scores, so a new install expresses itself immediately. `update-bank` merges newer takes and keeps your own scores.

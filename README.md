@@ -33,7 +33,7 @@ Out of the box, Chatterbox's lines are 7-9 dB quieter, brighter and start late. 
 3. matches the speech level;
 4. applies a speaker-safe limit.
 
-Everything then plays through **one continuous output stream**, with 20 ms equal-power crossfades.
+Everything then plays through **one continuous output stream** with 20 ms equal-power crossfades. The stream runs in its **own process**, so a busy assistant (an LLM streaming, the UI, rendering) can't make it stutter. Under load it measured 0 glitches, against 546 when it shared the host's process.
 
 ![Matcher: the quieter, late Chatterbox line is trimmed, tone-matched and level-matched to Kokoro](docs/animations/one-voice.svg)
 

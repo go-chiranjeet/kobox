@@ -489,3 +489,48 @@ def test_bank_update_merges_new_takes_and_keeps_local_scores(isolated_home, tmp_
     up.export(tmp_path / "ship2")
     assert mine.seed(tmp_path / "ship2", merge=True) == 1
     assert mine.index[a]["score"] == 1.3 and b in mine.index
+
+
+def _has_output_device():
+    try:
+        import sounddevice as sd
+        sd.query_devices(kind="output")
+        return True
+    except Exception:
+        return False
+
+
+@pytest.mark.skipif(not _has_output_device(), reason="needs an audio output device")
+def test_process_player_plays_in_order_and_drains(isolated_home, monkeypatch):
+    """The real audio process, silenced: markers fire in order, drain finishes, stats come back."""
+    monkeypatch.setenv("KOBOX_SILENT", "1")
+    from kobox.engine import ProcPlayer
+
+    async def run():
+        p, seen = ProcPlayer(20), []
+        x = tone(0.4, -20)
+        for i in range(3):
+            await p.play(x, lambda i=i: seen.append(i))
+        await asyncio.wait_for(p.drain(asyncio.Event()), 8)
+        stats = p.take_stats()
+        p.kill()
+        return seen, stats
+    seen, stats = asyncio.run(run())
+    assert seen == [0, 1, 2] and stats["player"] == "process"
+
+
+@pytest.mark.skipif(not _has_output_device(), reason="needs an audio output device")
+def test_process_player_abort_is_instant(isolated_home, monkeypatch):
+    monkeypatch.setenv("KOBOX_SILENT", "1")
+    from kobox.engine import ProcPlayer
+
+    async def run():
+        p = ProcPlayer(20)
+        await p.play(tone(5.0, -20), lambda: None)
+        await asyncio.sleep(0.3)
+        t = time.time()
+        p.abort()
+        await asyncio.wait_for(p.drain(asyncio.Event()), 3)
+        p.kill()
+        return time.time() - t
+    assert asyncio.run(run()) < 1.0

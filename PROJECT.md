@@ -14,7 +14,7 @@ It was built for REHA, a local, private AI assistant. Her voice needed to start 
 
 | | |
 |---|---|
-| Version | **0.2.0** (see [CHANGELOG](CHANGELOG.md)) |
+| Version | **0.2.1** (see [CHANGELOG](CHANGELOG.md)) |
 | Tested on | macOS, Apple Silicon (M4 Pro, 24 GB) |
 | Expected to work | other Apple Silicon Macs. Linux works with Chatterbox on CPU (slower, so more lines come from the expression bank) |
 | Tests | model-free unit tests run in CI on every push |
@@ -39,6 +39,7 @@ It was built for REHA, a local, private AI assistant. Her voice needed to start 
 | `kobox/prosody.py` | Cue vocabulary and parser (`[laughs]`, `*softly*`, `(sighs)`), delivery styles, clause-level tempo, pitch and pause planning for Kokoro. |
 | `kobox/textproc.py` | Word error rate with forgiving normalisation (numbers, fillers, compounds), and the words that must be heard (numbers, names). |
 | `kobox/hearing.py` | Local Whisper (whisper.cpp). `verify()` never queues behind live listening. |
+| `kobox/audio_out.py` | The audio output process: one queue, crossfades, line-start markers, glitch measurement. A busy host can't starve it, and replies can't overlap. |
 | `kobox/chatterbox_worker.py` | Long-lived Chatterbox Turbo process speaking JSON lines; runs in its own Python environment. |
 
 `kobox/bank/` is her shipped expression bank (rendered takes with learned scores), exported from REHA on every sync. `kobox/__main__.py` holds the CLI and the local `serve` service. `Kobox.hear()`, `Kobox.feedback()`, `parse_feedback()` and `prompt_guide()` (in `engine.py`) are the learning loop and the LLM guide.
@@ -59,6 +60,7 @@ How the pieces move is animated in the README: [how it works](docs/animations/ho
 | Plain text is planned sentence by sentence | Long replies start at once instead of after the whole text is rendered. |
 | Hums and interjections split into their own lines | Kokoro reads "Mmm hmm" and "Pfft" as words. Chatterbox, or the bank, performs them. |
 | Reject held musical pitch when learning | A song's sung "ooh" would otherwise teach her to sing. |
+| Audio is played from a separate process | In a busy host, the in-process audio callback was starved: 546 glitches in 7 replies under load, 0 from a separate process. Found from a user report of stutters in long conversations. |
 | Chatterbox's Perth watermark is kept | Responsible use of a voice-cloning model. |
 
 ## Roadmap

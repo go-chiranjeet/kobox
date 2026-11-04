@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kobox"
-version = "0.2.0"
+version = "0.2.1"
 description = "One voice from two engines: Kokoro's speed with Chatterbox's real laughs, sighs and moods, checked by Whisper."
 readme = "README.md"
 license = { text = "MIT" }
