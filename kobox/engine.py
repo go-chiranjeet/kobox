@@ -52,6 +52,7 @@ DEFAULTS = {
     "instant_start": True,      # the first line is always Kokoro, so she starts at once
     "stream": True,             # one continuous output stream (False: one file per line via afplay)
     "restart_every_s": 600,     # a failed Chatterbox worker is retried at most this often
+    "process_player": True,     # play from a separate process: a busy host can never make the audio skip
 }
 MOOD_LINE_MOODS = {"amused", "playful", "tender", "concerned"}
 LOG_KEEP_DAYS = 14
@@ -290,7 +291,21 @@ class StreamPlayer:
         self.stream = stream
         self.stream.start()
 
+    def take_stats(self) -> dict:
+        s = {"glitches": getattr(self, "_glitches", 0), "worst_late_ms": round(getattr(self, "_late", 0.0) * 1000, 1),
+             "player": "in-process"}
+        self._glitches, self._late = 0, 0.0
+        return s
+
     def _callback(self, outdata, frames, _time, _status) -> None:
+        now = time.perf_counter()
+        prev = getattr(self, "_last_cb", None)
+        self._last_cb = now
+        if prev is not None and self.pos < len(self.buf):
+            late = now - prev - frames / self.sr
+            self._late = max(getattr(self, "_late", 0.0), late)
+            if late > frames / self.sr or (_status and _status.output_underflow):
+                self._glitches = getattr(self, "_glitches", 0) + 1
         fire = []
         with self.lock:
             take = max(0, min(frames, len(self.buf) - self.pos))
@@ -366,6 +381,107 @@ class StreamPlayer:
             pass
 
 
+class ProcPlayer:
+    """Client of Kobox's audio-output process (audio_out.py), shared by every reply.
+    The speaker is fed from a process that does nothing else, so a busy host (rendering,
+    listening, UI, an LLM streaming) can never make the audio skip; and with one queue
+    for everything, two replies can never play over each other."""
+
+    def __init__(self, crossfade_ms: float, sr: int = SR):
+        self.sr, self.xf = sr, crossfade_ms
+        self.proc: asyncio.subprocess.Process | None = None
+        self.loop: asyncio.AbstractEventLoop | None = None
+        self.marks: dict[int, Callable[[], None]] = {}
+        self.next_id, self.sent_id, self.done_id = 1, 0, 0
+        self.queued = 0
+        self.changed = asyncio.Event()
+        self.glitches, self.late_ms = 0, 0.0
+        self.write_lock = asyncio.Lock()
+
+    def alive(self) -> bool:
+        return self.proc is not None and self.proc.returncode is None
+
+    async def ensure(self) -> None:
+        if self.alive():
+            return
+        import sys as _sys
+        self.loop = asyncio.get_running_loop()
+        script = os.path.join(os.path.dirname(os.path.abspath(__file__)), "audio_out.py")
+        self.proc = await asyncio.create_subprocess_exec(
+            _sys.executable, "-I", script, str(self.sr), str(self.xf),
+            stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL)
+        line = await asyncio.wait_for(self.proc.stdout.readline(), 15)
+        if line.strip() != b"READY":
+            raise RuntimeError("audio output process did not start")
+        self.sent_id = self.done_id = 0
+        self.next_id = 1
+        asyncio.ensure_future(self._read())
+
+    async def _read(self) -> None:
+        proc = self.proc
+        while proc and proc.returncode is None:
+            line = await proc.stdout.readline()
+            if not line:
+                break
+            parts = line.decode().split()
+            if not parts:
+                continue
+            if parts[0] == "M":
+                fn = self.marks.pop(int(parts[1]), None)
+                if fn:
+                    fn()
+            elif parts[0] == "R":
+                self.queued = int(parts[1])
+            elif parts[0] == "E":
+                self.done_id, self.queued = int(parts[1]), 0
+                self.glitches += int(parts[2])
+                self.late_ms = max(self.late_ms, float(parts[3]))
+            self.changed.set()
+        self.changed.set()
+
+    def remaining_s(self) -> float:
+        return self.queued / self.sr if self.sent_id > self.done_id else 0.0
+
+    async def play(self, x: np.ndarray, on_start: Callable[[], None]) -> None:
+        await self.ensure()
+        import struct
+        x = np.asarray(x, "<f4")
+        cid = self.next_id
+        self.next_id += 1
+        self.marks[cid] = on_start
+        self.sent_id = cid
+        self.queued += len(x)
+        async with self.write_lock:
+            self.proc.stdin.write(b"A" + struct.pack("<II", cid, len(x)) + x.tobytes())
+            await self.proc.stdin.drain()
+
+    async def drain(self, cancel: asyncio.Event) -> None:
+        while not cancel.is_set() and self.alive() and self.done_id < self.sent_id:
+            self.changed.clear()
+            try:
+                await asyncio.wait_for(self.changed.wait(), 0.25)
+            except asyncio.TimeoutError:
+                pass
+
+    def abort(self) -> None:
+        self.marks.clear()
+        if self.alive():
+            try:
+                self.proc.stdin.write(b"X")
+            except Exception:
+                pass
+        self.queued = 0
+
+    def take_stats(self) -> dict:
+        s = {"glitches": self.glitches, "worst_late_ms": round(self.late_ms, 1), "player": "process"}
+        self.glitches, self.late_ms = 0, 0.0
+        return s
+
+    def close(self, hard: bool = False) -> None:
+        if hard:
+            self.abort()                    # the process stays up for the next reply
+
+
 class FilePlayer:
     """Fallback: one file per line through the Voice's normal player (afplay)."""
 
@@ -412,6 +528,7 @@ class Report:
     lines: list[dict] = field(default_factory=list)
     fallback: str = ""
     takes: list[str] = field(default_factory=list)
+    phases: dict = field(default_factory=dict)        # ms from the start of the reply to each step
 
 
 class Kobox:
@@ -426,6 +543,7 @@ class Kobox:
         self._make_player = None            # tests inject a fake player
         from .expressions import Bank
         self.bank = Bank()                  # real nonverbal takes in her voice (laughs, sighs, aww, hums...)
+        self.proc_player: ProcPlayer | None = None
 
     async def prepare_bank(self) -> None:
         """Background: render missing takes and the weekly fresh ones."""
@@ -571,7 +689,10 @@ class Kobox:
                 ln.kk_text = core if ln.kk_text is None else ln.kk_text
 
         # Kokoro for every line, in order, on one thread (expressive ones are the backup)
-        kk = [asyncio.wrap_future(self.pool.submit(self._kokoro, ln.text if ln.kk_text is None else ln.kk_text, style, spd, mood)) for ln in lines]
+        rep.phases["planned"] = round((time.time() - rep.started) * 1000)
+        raw = [self.pool.submit(self._kokoro, ln.text if ln.kk_text is None else ln.kk_text, style, spd, mood) for ln in lines]
+        kk = [asyncio.wrap_future(f) for f in raw]
+        kk[0].add_done_callback(lambda _f: rep.phases.setdefault("first_kokoro", round((time.time() - rep.started) * 1000)))
         cb: dict[int, asyncio.Task] = {}
         if use_cb:
             for ln in lines:
@@ -592,6 +713,7 @@ class Kobox:
             log.warning("kobox: output stream unavailable (%s); playing line by line", e)
             self.player = FilePlayer(v)
         player = self.player
+        rep.phases["player"] = round((time.time() - rep.started) * 1000)
         v._cancel.clear()
         v.speaking = True
         started = False
@@ -675,6 +797,10 @@ class Kobox:
             return await v._speak_kokoro(rest, on_chunk, voice, mood) if rest else True
         finally:
             v.speaking = False
+            for f in raw:
+                f.cancel()                          # lines never reached: don't make the next reply wait for them
+            if hasattr(player, "take_stats"):
+                rep.audio = player.take_stats()
             player.close()
             self.player = None
             for ln in lines:
@@ -687,6 +813,10 @@ class Kobox:
     def _new_player(self, loop, s):
         if not s.get("stream", True):
             return FilePlayer(self.v)
+        if s.get("process_player", True):
+            if self.proc_player is None:
+                self.proc_player = ProcPlayer(float(s["crossfade_ms"]))
+            return self.proc_player
         return StreamPlayer(loop, float(s["crossfade_ms"]))
 
     def stop(self) -> None:
@@ -703,6 +833,8 @@ class Kobox:
             "by_chatterbox": sum(1 for ln in exp if ln.engine == "chatterbox"),
             "by_bank": sum(1 for ln in exp if ln.engine == "bank"),
             "takes": list(rep.takes),
+            "phases_ms": dict(rep.phases),
+            "audio": getattr(rep, "audio", {}),
             "first_sound_s": rep.first_sound_s,
             "fallback": rep.fallback or (reasons[-1] if reasons else ""),
             "grace_s": round(self.grace(settings(self.v.cfg)), 2),
